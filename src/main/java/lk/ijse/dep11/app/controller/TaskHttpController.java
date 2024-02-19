@@ -36,7 +36,7 @@ public class TaskHttpController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTask() {
-        System.out.println("Delete Task");
+    public void deleteTask(@PathVariable int id) {
+        taskService.deleteTask(id);
     }
 }
