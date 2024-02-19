@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -29,8 +30,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getAllTasks(String email) {
-        return null;
+    public List<TaskDto> getAllTasksByEmail(String email) {
+        List<Task> taskList = taskRepository.getTasksByEmailEquals(email);
+        List<TaskDto> taskDtoList = taskList
+                .stream()
+                .map(task -> modelMapper.map(task, TaskDto.class))
+                .collect(Collectors.toList());
+        return taskDtoList;
     }
 
     @Override
