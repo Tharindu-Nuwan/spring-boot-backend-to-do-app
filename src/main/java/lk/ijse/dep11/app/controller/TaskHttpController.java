@@ -26,8 +26,8 @@ public class TaskHttpController {
     }
 
     @PatchMapping("/{id}")
-    public void updateTask() {
-        System.out.println("update Task");
+    public void updateTask(@PathVariable int id, @RequestBody TaskDto taskDto) {
+        taskService.updateTask(id, taskDto);
     }
 
     @GetMapping(produces = "application/json", params = {"email"})

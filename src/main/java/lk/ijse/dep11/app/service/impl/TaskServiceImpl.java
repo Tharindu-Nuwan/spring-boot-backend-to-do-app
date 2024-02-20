@@ -51,6 +51,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void updateTask(int id, TaskDto taskDto) {
-
+        if (taskRepository.findById(id).isPresent()) {
+            Task task = new Task(id,
+                    taskDto.getDescription(),
+                    taskDto.getStatus(),
+                    taskRepository.getReferenceById(id).getEmail());
+            taskRepository.save(task);
+        }  else {
+            throw new RuntimeException("Nothing to Update!");
+        }
     }
 }
