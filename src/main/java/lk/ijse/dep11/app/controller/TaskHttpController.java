@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +22,14 @@ public class TaskHttpController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public TaskDto saveTask(@RequestBody TaskDto taskDto) {
+    public TaskDto saveTask(@RequestBody @Validated(TaskDto.Create.class) TaskDto taskDto) {
         return taskService.saveTask(taskDto);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{id}")
-    public void updateTask(@PathVariable int id, @RequestBody TaskDto taskDto) {
+    public void updateTask(@PathVariable int id,
+                           @RequestBody @Validated(TaskDto.Update.class) TaskDto taskDto) {
         taskService.updateTask(id, taskDto);
     }
 
@@ -35,6 +38,7 @@ public class TaskHttpController {
         return taskService.getAllTasksByEmail(email);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable int id) {
         taskService.deleteTask(id);
