@@ -2,6 +2,7 @@ package lk.ijse.dep11.app.service.impl;
 
 import lk.ijse.dep11.app.dto.TaskDto;
 import lk.ijse.dep11.app.entity.Task;
+import lk.ijse.dep11.app.exception.NotFoundException;
 import lk.ijse.dep11.app.repository.TaskRepository;
 import lk.ijse.dep11.app.service.TaskService;
 import org.modelmapper.ModelMapper;
@@ -45,7 +46,7 @@ public class TaskServiceImpl implements TaskService {
         if (taskRepository.findById(id).isPresent()) {
             taskRepository.deleteById(id);
         } else {
-            throw new RuntimeException("Nothing to Delete!");
+            throw new NotFoundException("Oops!, No task found for this id to delete, Try again...");
         }
     }
 
@@ -58,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
                     taskRepository.getReferenceById(id).getEmail());
             taskRepository.save(task);
         }  else {
-            throw new RuntimeException("Nothing to Update!");
+            throw new NotFoundException("Oops!, No task found for this id to update, Try again...");
         }
     }
 }
